@@ -2,7 +2,19 @@ from typing import Optional
 from pydantic import BaseModel
 
 
-
+class User(BaseModel):
+    user_name : str 
+    fristName : str 
+    lastName  : str 
+    password  : str     
+    class Config:
+        orm_mode = True
+        
+class CreatMovieSerie(BaseModel):
+    name        :str
+    director    :str
+    class Config:
+        orm_mode = True
         
 class UserMoiveScore(BaseModel):
     user_name: str

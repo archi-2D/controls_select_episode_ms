@@ -25,10 +25,47 @@ def main():
     return RedirectResponse(url="/docs/")
 
 
+@app.post('/user/create_user',response_model=schemas.Respuesta)
+def add_user(entrada:schemas.User, db:Session=Depends(get_db)):
+    user = models.user(
+        user_name= entrada.user_name,
+        fristName= entrada.fristName,
+        lastName = entrada.lastName,
+        password = entrada.password,
+        )
+    db.add(user)
+    db.commit()
+    db.refresh(user)
+    respuesta = schemas.Respuesta(msj="funciona")
+    return respuesta
 
+@app.post('/movies/create_movie',response_model=schemas.Respuesta)
+def add_movie(entrada:schemas.CreatMovieSerie, db:Session=Depends(get_db)):
+    movie = models.movies(
+        name = entrada.name,
+        director = entrada.director,
+        averge_score = 0,
+        )
+    db.add(movie)
+    db.commit()
+    db.refresh(movie)
+    respuesta = schemas.Respuesta(msj="funciona")
+    return respuesta
 
+@app.post('/series/create_serie',response_model=schemas.Respuesta)
+def add_serie(entrada:schemas.CreatMovieSerie, db:Session=Depends(get_db)):
+    serie = models.series(
+        name = entrada.name,
+        director = entrada.director,
+        averge_score = 0,
+        )
+    db.add(serie)
+    db.commit()
+    db.refresh(serie)
+    respuesta = schemas.Respuesta(msj="funciona")
+    return respuesta
 
-@app.post('/usuarios/movie_score',response_model=schemas.Respuesta)
+@app.post('/user/movie_score',response_model=schemas.Respuesta)
 def user_movie_score(entrada:schemas.UserMoiveScore, db:Session=Depends(get_db)):
     user = db.query(models.user).filter_by(user_name=entrada.user_name).first()
     moive = db.query(models.movies).filter_by(name=entrada.moive_name).first()
@@ -48,7 +85,7 @@ def user_movie_score(entrada:schemas.UserMoiveScore, db:Session=Depends(get_db))
     respuesta = schemas.Respuesta(msj="funciona")
     return respuesta
 
-@app.post('/usuarios/series_score',response_model=schemas.Respuesta)
+@app.post('/user/series_score',response_model=schemas.Respuesta)
 def user_series_score(entrada:schemas.UserSerieScore, db:Session=Depends(get_db)):
     user = db.query(models.user).filter_by(user_name=entrada.user_name).first()
     serie = db.query(models.series).filter_by(name=entrada.serie_name).first()
@@ -68,7 +105,7 @@ def user_series_score(entrada:schemas.UserSerieScore, db:Session=Depends(get_db)
     respuesta = schemas.Respuesta(msj="funciona")
     return respuesta
 
-@app.post('/usuarios/movies_favorite',response_model=schemas.Respuesta)
+@app.post('/user/movies_favorite',response_model=schemas.Respuesta)
 def user_movies_favorites(entrada:schemas.UserMovieFavorite, db:Session=Depends(get_db)):
     user = db.query(models.user).filter_by(user_name=entrada.user_name).first()
     movie = db.query(models.movies).filter_by(name=entrada.movie_name).first()
@@ -79,7 +116,7 @@ def user_movies_favorites(entrada:schemas.UserMovieFavorite, db:Session=Depends(
     respuesta = schemas.Respuesta(msj="funciona")
     return respuesta
 
-@app.post('/usuarios/series_favorite',response_model=schemas.Respuesta)
+@app.post('/user/series_favorite',response_model=schemas.Respuesta)
 def user_series_favorites(entrada:schemas.UserSerieFavorite, db:Session=Depends(get_db)):
     user = db.query(models.user).filter_by(user_name=entrada.user_name).first()
     serie = db.query(models.series).filter_by(name=entrada.serie_name).first()
