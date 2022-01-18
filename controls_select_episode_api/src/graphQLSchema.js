@@ -24,7 +24,7 @@ const mergedTypeDefs = mergeSchemas(
         usertTypeDef
     ], [
         categoryQueries,
-        userQueries
+        userQueries,
     ], [
         categoryMutations,
         UserMutations

@@ -20,18 +20,27 @@ export const categoryMutations = `
 `;
 
 
+
+
 export const usertTypeDef = `
   type Response {
     msj: String!
   }
+  type user{
+    id : Int!
+    user_name : String!
+    firstName : String!
+    lastName : String!
+    password : String!
+  }
   input UserInput {
     user_name : String!
-    fristName : String!
+    firstName : String!
     lastName : String!
     password : String!
   }`;
 export const userQueries = `
-      
+      getUsers: [user]!
   `;
 export const UserMutations = `
     createUser(user: UserInput!): Response!
