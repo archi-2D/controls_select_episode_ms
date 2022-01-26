@@ -10,7 +10,10 @@ import {
     categoryTypeDef,
     usertTypeDef,
     userQueries,
-    UserMutations
+    UserMutations,
+    authTypeDef,
+    authQueries,
+    authMutations
 
 } from './controls_select_episode/categories/typeDefs';
 
@@ -21,13 +24,16 @@ const mergedTypeDefs = mergeSchemas(
     [
         'scalar JSON',
         categoryTypeDef,
-        usertTypeDef
+        usertTypeDef,
+        authTypeDef,
     ], [
         categoryQueries,
         userQueries,
+        authQueries,
     ], [
         categoryMutations,
-        UserMutations
+        UserMutations,
+        authMutations,
     ]
 
 );

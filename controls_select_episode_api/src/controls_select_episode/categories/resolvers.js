@@ -1,18 +1,34 @@
 import { generalRequest, getRequest } from '../../utilities';
 import { url, port, entryPoint } from './server';
 
-const URL1 = `http://${url}:${port}/${entryPoint}`;
+const URLBase = `http://${url}:${port}`;
 const URL2 = `http://${url}:${port}/users`;
 
 const resolvers = {
     Query: {
         getUsers: (_) =>
-            getRequest(URL2, ''),
+            getRequest(`${URLBase}/users`, ''),
+        getMoviesScore: (_) =>
+            getRequest(`${URLBase}/movies_scores`, ''),
+        getSeriesScore: (_) =>
+            getRequest(`${URLBase}/series_scores`, ''),
+        getMovies: (_) =>
+            getRequest(`${URLBase}/movies`, ''),
+        getSeries: (_) =>
+            getRequest(`${URLBase}/series`, ''),
     },
     Mutation: {
         createUser: (_, { user }) =>
-            generalRequest(`${URL1}`, 'POST', user),
-        //generalRequest('http://127.0.0.1/user/create_user', 'POST', user),
+            generalRequest(`${URLBase}/${entryPoint}`, 'POST', user),
+        createMovieScore: (_, { movieScore }) =>
+            generalRequest(`${URLBase}/user/movie_score/create`, 'POST', movieScore),
+        createSerieScore: (_, { serieScore }) =>
+            generalRequest(`${URLBase}/user/series_score/create`, 'POST', serieScore),
+        createAuthUser: (_, { authCreateUser }) =>
+            generalRequest(`http://host.docker.internal:49154/users/register`, 'POST', authCreateUser),
+        verifyUser: (_, { authUser }) =>
+            generalRequest(`http://host.docker.internal:49154/users/authenticate`, 'POST', authUser),
+
     }
 };
 

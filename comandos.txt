@@ -1,0 +1,8 @@
+docker build -t controls_select_episode_db .
+docker run -d -t -i -p 3311:3306 --name controls_select_episode_db controls_select_episode_db
+docker build -t controls_select_episode_ms .
+docker run -d --name controls_select_episode_ms -p 8080:8443 controls_select_episode_ms
+docker build -t controls_select_episode_api .
+docker run -p 5000:5000 --name controls_select_episode_api controls_select_episode_api
+docker build -t 2d_profile_proxy .
+docker run -p 80:80 --name proxy --network host 2d_profile_proxy
