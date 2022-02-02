@@ -89,12 +89,7 @@ type AuthResponse {
   message: String!
 }
 type tokenResponse{
-  id : Int!
-  username : String!
-  firstName : String!
-  lastName : String!
-  password : String!
-  token : String!
+  msj : String!
   error: String!
 }
 
@@ -116,7 +111,9 @@ input AuthUser{
 export const authQueries = `
      
   `;
+
 export const authMutations = `
-    createAuthUser(authCreateUser:AuthCreateUser!): AuthResponse
+   
     verifyUser(authUser:AuthUser!): tokenResponse
 `;
+// createAuthUser(authCreateUser:AuthCreateUser!): AuthResponse

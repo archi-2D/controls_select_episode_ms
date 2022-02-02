@@ -24,10 +24,8 @@ const resolvers = {
             generalRequest(`${URLBase}/user/movie_score/create`, 'POST', movieScore),
         createSerieScore: (_, { serieScore }) =>
             generalRequest(`${URLBase}/user/series_score/create`, 'POST', serieScore),
-        createAuthUser: (_, { authCreateUser }) =>
-            generalRequest(`http://host.docker.internal:49154/users/register`, 'POST', authCreateUser),
         verifyUser: (_, { authUser }) =>
-            generalRequest(`http://host.docker.internal:49154/users/authenticate`, 'POST', authUser),
+            generalRequest(`${URLBase}/users/veryUser`, 'POST', authUser),
 
     }
 };

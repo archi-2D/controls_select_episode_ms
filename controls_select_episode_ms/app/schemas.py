@@ -76,6 +76,11 @@ class UserSerieFavorite(BaseModel):
         
 class Respuesta(BaseModel):
     msj:str
+    error: str
+    
+class Username(BaseModel):
+    username:str
+    password:str
 
     
    

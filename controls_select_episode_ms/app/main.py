@@ -1,3 +1,4 @@
+from ast import If
 from os import name
 from typing import List, Type
 from fastapi import FastAPI
@@ -7,6 +8,7 @@ from sqlalchemy.orm.session import Session
 from starlette.responses import RedirectResponse
 from . import models,schemas
 from .conexion import SessionLocal,engine
+from uuid import uuid4
 
 models.Base.metadata.create_all(bind =engine)
 
@@ -30,10 +32,16 @@ def get_user(db:Session=Depends(get_db)):
     users_db = db.query(models.user).all()    
     return users_db
 
-@app.get('/users/{user_name}',response_model= schemas.User)
-def get_user(user_name:str, db:Session=Depends(get_db)):
-    user_db = db.query(models.user).filter_by(user_name=user_name).first()   
-    return user_db
+@app.post('/users/veryUser',response_model= schemas.Respuesta)
+def get_user(entrada:schemas.Username, db:Session=Depends(get_db)):
+
+    user_db = db.query(models.user).filter_by(user_name=entrada.username).first()
+    if user_db.password == entrada.password :
+        return schemas.Respuesta(msj= str(uuid4()), error = "No Error");
+    else:
+        return schemas.Respuesta(msj="", error = "Invalid credential")
+       
+    
 
 @app.get('/users/favorites/{user_name}',response_model= schemas.UserFavorites)
 def get_user(user_name:str, db:Session=Depends(get_db)):
@@ -69,7 +77,7 @@ def add_user(entrada:schemas.User, db:Session=Depends(get_db)):
     db.add(user)
     db.commit()
     db.refresh(user)
-    respuesta = schemas.Respuesta(msj="funciona")
+    respuesta = schemas.Respuesta(msj="funciona", error = "No Error")
     return respuesta
 
 @app.get('/movies',response_model= List[schemas.MovieSerie])
@@ -87,7 +95,7 @@ def add_movie(entrada:schemas.CreatMovieSerie, db:Session=Depends(get_db)):
     db.add(movie)
     db.commit()
     db.refresh(movie)
-    respuesta = schemas.Respuesta(msj="funciona")
+    respuesta = schemas.Respuesta(msj="funciona", error = "No Error")
     return respuesta
 
 @app.get('/series',response_model= List[schemas.MovieSerie])
@@ -105,7 +113,7 @@ def add_serie(entrada:schemas.CreatMovieSerie, db:Session=Depends(get_db)):
     db.add(serie)
     db.commit()
     db.refresh(serie)
-    respuesta = schemas.Respuesta(msj="funciona")
+    respuesta = schemas.Respuesta(msj="funciona", error = "No Error")
     return respuesta
 
 @app.post('/user/movie_score/create',response_model=schemas.Respuesta)
@@ -125,7 +133,7 @@ def user_movie_score(entrada:schemas.UserMoiveScore, db:Session=Depends(get_db))
     db.commit()
     db.refresh(user_moive_score)
     db.refresh(moive)
-    respuesta = schemas.Respuesta(msj="funciona")
+    respuesta = schemas.Respuesta(msj="funciona", error = "No Error")
     return respuesta
 
 @app.get('/movies_scores',response_model= List[schemas.Score])
@@ -157,7 +165,7 @@ def user_series_score(entrada:schemas.UserSerieScore, db:Session=Depends(get_db)
     db.commit()
     db.refresh(user_serie_score)
     db.refresh(serie)
-    respuesta = schemas.Respuesta(msj="funciona")
+    respuesta = schemas.Respuesta(msj="funciona", error = "No Error")
     return respuesta
 
 @app.get('/series_scores',response_model= List[schemas.Score])
@@ -179,7 +187,7 @@ def user_movies_favorites(entrada:schemas.UserMovieFavorite, db:Session=Depends(
     db.add(user_movies_favorites)
     db.commit()
     db.refresh(user_movies_favorites)
-    respuesta = schemas.Respuesta(msj="funciona")
+    respuesta = schemas.Respuesta(msj="funciona", error = "No Error")
     return respuesta
 
 @app.post('/user/series_favorite/make',response_model=schemas.Respuesta)
@@ -190,7 +198,7 @@ def user_series_favorites(entrada:schemas.UserSerieFavorite, db:Session=Depends(
     db.add(user_series_favorites)
     db.commit()
     db.refresh(user_series_favorites)
-    respuesta = schemas.Respuesta(msj="funciona")
+    respuesta = schemas.Respuesta(msj="funciona", error = "No Error")
     return respuesta
 
 
